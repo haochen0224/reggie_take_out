@@ -12,6 +12,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 
@@ -123,5 +124,37 @@ public class EmployeeController {
         employeeService.page(pageInfo,queryWrapper);
 
         return R.success(pageInfo);
+    }
+
+    /**
+     * 根据id修改员工信息
+     * @param employee JHU
+     * @return
+     */
+    @PutMapping
+    public R<String> update(HttpServletRequest request, @RequestBody Employee employee) {
+        log.info(employee.toString());
+
+        Long empId = (Long)request.getSession().getAttribute("employee");
+        employee.setUpdateTime(LocalDateTime.now());
+        employee.setUpdateUser(empId);
+        employeeService.updateById(employee);
+
+        return R.success("员工信息修改成功");
+    }
+
+    /**
+     * 根据id查询员工信息
+     * @param id
+     * @return
+     */
+    @GetMapping("/{id}")
+    public R<Employee> getById(@PathVariable Long id) {
+        log.info("根据id查询员工信息...");
+        Employee emp = employeeService.getById(id);
+        if(emp != null) {
+            return R.success(emp);
+        }
+        return R.error("没有查询到对应员工信息");
     }
 }
