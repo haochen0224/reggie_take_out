@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.itheima.reggie.dto.DishDto;
 import com.itheima.reggie.entity.Dish;
 import com.itheima.reggie.entity.DishFlavor;
+import com.itheima.reggie.entity.Setmeal;
 import com.itheima.reggie.mapper.DishMapper;
 import com.itheima.reggie.service.DishFlavorService;
 import com.itheima.reggie.service.DishService;
@@ -89,5 +90,20 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
 
         dishFlavorService.saveBatch(flavors);
 
+    }
+
+    /**
+     * 更新菜品状态(自己写的)
+     * @param statusId
+     * @param ids
+     */
+    @Transactional
+    public void updateStatus(int statusId, List<Long> ids) {
+        List<Dish> list = ids.stream().map((id) -> {
+            Dish dish = this.getById(id);
+            dish.setStatus(statusId);
+            return dish;
+        }).collect(Collectors.toList());
+        this.updateBatchById(list);
     }
 }

@@ -131,4 +131,16 @@ public class DishController {
         List<Dish> list = dishService.list(queryWrapper);
         return R.success(list);
     }
+
+    /**
+     * 更新菜品状态(自己写的)
+     * @param ids
+     * @return
+     */
+    @PostMapping("/status/{statusId}")
+    public R<String> updateStatus(@PathVariable int statusId, @RequestParam List<Long> ids) {
+        log.info("ids: {}", ids);
+        dishService.updateStatus(statusId,ids);
+        return R.success("更新套餐状态成功");
+    }
 }
