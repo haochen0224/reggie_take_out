@@ -1,3 +1,5 @@
 # Dependencies #
 ###################
 *.yml
+*.class
+target/
