@@ -1,4 +1,4 @@
 # Dependencies #
 ###################
 application.yml
-.class
+*.class
